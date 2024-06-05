@@ -26,6 +26,12 @@ export function WeatherCard({ lat, lon, locationName }) {
         console.log('Weather data is null for:', { lat, lon });
         return <div>Loading...</div>;
     }
+
+    const roundedTempreture = Math.floor(weatherData.main.temp);
+    const roundedTempretureMin = Math.floor(weatherData.main.temp_min);
+    const roundedTempretureMax = Math.floor(weatherData.main.temp_max);
+    const roundedTempFeelsLike = Math.floor(weatherData.main.feels_like);
+
     console.log('Rendering WeatherCard with data:', weatherData);
 
     return (
@@ -35,20 +41,20 @@ export function WeatherCard({ lat, lon, locationName }) {
               <img className="w-32 h-32" src={icon} alt={weatherData.weather[0].main} />
               </div>
             <div className="flex flex-col justify-center items-center mb-10 ml-3 mr-3">
-                <p className="text-7xl font-bold">{weatherData.main.temp}°C</p>
+                <p className="text-7xl font-bold">{roundedTempreture}°C</p>
                 <p className="text-xl">{weatherData.weather[0].main}</p>
-                <p className="text-sm">Low: {weatherData.main.temp_min}°C</p>
-                <p className="text-sm">High: {weatherData.main.temp_max}°C</p>
+                <p className="text-sm">Low: {roundedTempretureMin}°C</p>
+                <p className="text-sm">High: {roundedTempretureMax}°C</p>
             </div>
             <div className="flex items-center justify-center gap-4 mr-3 ml-3 mb-5">
                 <div className="flex flex-col items-center justify-center"><img src={humidityIcon} alt="humidity_icon" className="w-8 h-8" />
                 <p className="text-sm flex flex-col items-center justify-center w-25 h-16">Humidity <span>{weatherData.main.humidity}%</span></p>
                 </div>
                 <div className="flex flex-col items-center justify-center"><img src={windIcon} alt="humidity_icon" className="w-8 h-8 icon" />
-                <p className="text-sm flex flex-col items-center justify-center w-25 h-16">Wind <span>{weatherData.wind.speed}km/h</span></p>
+                <p className="text-sm flex flex-col items-center justify-center w-25 h-16">Wind <span>{weatherData.wind.speed}m/s</span></p>
                 </div>
                 <div className="flex flex-col items-center justify-center"><img src={feelsLikeIcon} alt="humidity_icon" className="w-8 h-8 icon" />
-                <p className="text-sm flex flex-col items-center justify-center w-25 h-16 ">Feels like <span>{weatherData.main.feels_like}°C</span></p>
+                <p className="text-sm flex flex-col items-center justify-center w-25 h-16 ">Feels like <span>{roundedTempFeelsLike}°C</span></p>
                 </div>
             </div>
         </div>
