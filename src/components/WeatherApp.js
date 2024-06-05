@@ -11,7 +11,12 @@ export function WeatherApp() {
 
     const addLocationHandler = ({ lat, lon, name }) => {
         console.log('Adding location:', { lat, lon, name });
+        const isDuplication = locations.some(location => location.lat === lat && location.lon === lon);
+        if(isDuplication){
+          return
+        } else {
         setLocation(prev => [...prev, { lat, lon, name }]);
+      }
     };
 
     return (

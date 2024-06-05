@@ -15,7 +15,7 @@ export function SearchModal({ onClose, addLocationHandler }) {
             const res = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=5&appid=${API_KEY}`);
             if (res.data.length > 0) {
                 const { lat, lon } = res.data[0];
-                const name = res.data[0].local_names['hu'] || res.data[0].name;
+                const name = res.data[0].local_names['en'] || res.data[0].name;
                 addLocationHandler({ lat, lon, name});
                 setInput("");
                 onClose();

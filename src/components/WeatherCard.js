@@ -12,27 +12,28 @@ export function WeatherCard({ lat, lon, locationName }) {
 
     useEffect(() => {
         async function getData() {
+            
             console.log('Fetching weather data for:', { lat, lon });
             const fetchedData = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
             console.log('Fetched weather data:', fetchedData.data);
             setWeatherData(fetchedData.data);
             const icon = fetchedData.data.weather[0].icon;
             setIcon(`https://openweathermap.org/img/wn/${icon}@2x.png`);
+        
         }
         getData();
-    }, [lat, lon, icon]);
+    }, [lat, lon, icon, locationName]);
 
     if (!weatherData) {
         console.log('Weather data is null for:', { lat, lon });
         return <div>Loading...</div>;
     }
+    console.log('Rendering WeatherCard with data:', weatherData);
 
     const roundedTempreture = Math.floor(weatherData.main.temp);
     const roundedTempretureMin = Math.floor(weatherData.main.temp_min);
     const roundedTempretureMax = Math.floor(weatherData.main.temp_max);
     const roundedTempFeelsLike = Math.floor(weatherData.main.feels_like);
-
-    console.log('Rendering WeatherCard with data:', weatherData);
 
     return (
         <div className="flex flex-col h-[32rem] w-72 bg-gray-700 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 mb-10 mt-5 justify-between">
