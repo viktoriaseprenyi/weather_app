@@ -10,6 +10,11 @@
 
   body{
     font-family: "DM Sans", sans-serif;
+    color: white;
+  }
+
+  .icon{
+    color:white;
   }
 
   html{

@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { API_KEY } from "../apis/api";
 
-export function SearchModal({ onClose, addLocationHandler }) {
+export function SearchModal({ onClose, addLocationHandler, setLocationName }) {
     const [input, setInput] = useState("");
 
     const inputHandler = (e) => {
@@ -18,6 +18,7 @@ export function SearchModal({ onClose, addLocationHandler }) {
                 addLocationHandler({ lat, lon });
                 setInput("");
                 onClose();
+                setLocationName(res.data[0].local_names['hu'])
             } else {
                 console.error('Sorry...No location has found');
             }
@@ -29,7 +30,7 @@ export function SearchModal({ onClose, addLocationHandler }) {
     return (
         <>
             <form onSubmit={submitHandler}>
-                <input onChange={inputHandler} value={input} type="text" name="search" placeholder="Search for location" />
+                <input onChange={inputHandler} value={input} type="text" name="search" placeholder="Search for location" className="pr-4 pl-4 pt-2 pb-2 rounded-lg w-72 text-slate-800"/>
             </form>
         </>
     );
