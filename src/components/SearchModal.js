@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { API_KEY } from "../apis/api";
 
-export function SearchModal({ onClose, addLocationHandler, setLocationName }) {
+export function SearchModal({ onClose, addLocationHandler }) {
     const [input, setInput] = useState("");
 
     const inputHandler = (e) => {
@@ -15,10 +15,10 @@ export function SearchModal({ onClose, addLocationHandler, setLocationName }) {
             const res = await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=5&appid=${API_KEY}`);
             if (res.data.length > 0) {
                 const { lat, lon } = res.data[0];
-                addLocationHandler({ lat, lon });
+                const name = res.data[0].local_names['hu'] || res.data[0].name;
+                addLocationHandler({ lat, lon, name});
                 setInput("");
                 onClose();
-                setLocationName(res.data[0].local_names['hu'])
             } else {
                 console.error('Sorry...No location has found');
             }
