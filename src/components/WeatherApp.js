@@ -9,6 +9,7 @@ import 'swiper/css/free-mode';
 export function WeatherApp() {
     const [locations, setLocation] = useState([{ lat: 51.5073219, lon: -0.1276474, name: "London"}]);
 
+
     const addLocationHandler = ({ lat, lon, name }) => {
         console.log('Adding location:', { lat, lon, name });
         const isDuplication = locations.some(location => location.lat === lat && location.lon === lon);
@@ -18,6 +19,12 @@ export function WeatherApp() {
         setLocation(prev => [...prev, { lat, lon, name }]);
       }
     };
+
+    const handleDelete = (locationName) => {
+      setLocation((prevLocations) =>
+          prevLocations.filter((location) => location.name !== locationName)
+      );
+  };
 
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center bg-gradient-to-r from-orange-400 via-purple-300 to-pink-400">
@@ -34,7 +41,7 @@ export function WeatherApp() {
                 >
                     {locations.map((location, index) => (
                         <SwiperSlide key={index} style={{ width: 'auto', height: 'auto' }} className="animate-slideright">
-                            <WeatherCard key={index} lat={location.lat} lon={location.lon} locationName={location.name} />
+                            <WeatherCard key={index} location={location} handleDelete={handleDelete}/>
                         </SwiperSlide>
                     ))}
                 </Swiper>

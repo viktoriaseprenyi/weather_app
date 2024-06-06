@@ -6,38 +6,40 @@ import humidityIcon from "../assets/humidity.png";
 import windIcon from "../assets/wind.png";
 import feelsLikeIcon from "../assets/climatization.png";
 
-export function WeatherCard({ lat, lon, locationName }) {
+export function WeatherCard({ location, handleDelete }) {
     const [weatherData, setWeatherData] = useState(null);
     const [icon, setIcon] = useState(null);
 
+    const {lat,lon,name} = location;
+
     useEffect(() => {
         async function getData() {
-            
             console.log('Fetching weather data for:', { lat, lon });
             const fetchedData = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
             console.log('Fetched weather data:', fetchedData.data);
             setWeatherData(fetchedData.data);
             const icon = fetchedData.data.weather[0].icon;
             setIcon(`https://openweathermap.org/img/wn/${icon}@2x.png`);
-        
         }
         getData();
-    }, [lat, lon, icon, locationName]);
+    }, [lat, lon, icon]);
 
     if (!weatherData) {
         console.log('Weather data is null for:', { lat, lon });
         return <div>Loading...</div>;
     }
-    console.log('Rendering WeatherCard with data:', weatherData);
+      console.log('Rendering WeatherCard with data:', weatherData);
 
     const roundedTempreture = Math.floor(weatherData.main.temp);
     const roundedTempretureMin = Math.floor(weatherData.main.temp_min);
     const roundedTempretureMax = Math.floor(weatherData.main.temp_max);
     const roundedTempFeelsLike = Math.floor(weatherData.main.feels_like);
+    
 
     return (
         <div className="flex flex-col h-[32rem] w-72 bg-gray-700 rounded-xl bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 mb-10 mt-5 justify-between">
-            <h2 className="text-center mt-5 font-bold text-2xl">{locationName}</h2>
+            <button onClick={()=>handleDelete(name)} className="flex justify-end mr-5 mt-2 opacity-60 hover:opacity-100">X</button>
+            <h2 className="text-center mt-5 font-bold text-2xl">{name}</h2>
             <div className="flex justify-center">
               <img className="w-32 h-32" src={icon} alt={weatherData.weather[0].main} />
               </div>
